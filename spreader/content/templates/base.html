@@ -1,0 +1,17 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="container">
+    {% block maincontent %}
+    {% endblock %}
+  </div>
+  <script src="{% static 'jquery-3.1.0.min.js' %}"></script>
+  <script src="{% static 'bootstrap.min.js' %}"></script>
+</body>
+</html>

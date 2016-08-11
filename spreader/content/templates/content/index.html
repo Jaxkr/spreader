@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}spreader{% endblock %}
+{% block maincontent %}
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1>Welcome to spreader</h1>
+    <p class="lead">
+      Here's how it works:
+    </p>
+    <ol>
+      <li>Click "get me something"!</li>
+      <li>Observe the thing. Maybe comment on it.</li>
+      <li>If you like it, press "spread" to pass it on to two people. If not, press "next".</li>
+      <li>Repeat until satisfied.</li>
+    </ol>
+    <a href="{% url 'getpost' %}" class="btn btn-primary btn-lg btn-block">Get me something!</a>
+    <br>
+    <p class="lead">
+      Want to post something to spreader.io? Here's how that works:
+    </p>
+    <ol>
+      <li>Upload the image you want to share to <a href="http://imgur.com/" target="_blank">imgur</a> or the image sharing site of your choice.</li>
+      <li>Write a little caption if you want.</li>
+      <li>Paste the direct think of the image into the box below.</li>
+      <li>Press "submit". Your image will be spread to 2 people.</li>
+      <li>Save the link to that page if you want to view stats.</li>
+    </ol><br>
+    <form method="post" action="">
+      {% csrf_token %}
+			{% if form.non_field_errors %}
+			<div class="alert alert-danger">
+				{{ form.non_field_errors }}
+			</div>
+			{% endif %}
+      {% if form.url.errors %}
+        <span>{{ form.url.errors.as_text }}</span>
+      {% endif %}
+      <div class="input-group">
+        <span class="input-group-addon">Image URL</span>
+        {{ form.url }}
+      </div><br>
+      {% if form.caption.errors %}
+        <span>{{ form.caption.errors.as_text }}</span>
+      {% endif %}
+      {{ form.caption }}<br>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+    </form>
+  </div>
+</div>
+{% endblock %}

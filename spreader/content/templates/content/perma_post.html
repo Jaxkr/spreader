@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Viewing{% endblock %}
+{% block maincontent %}
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <a href="{% url 'index' %}"><h1>spreader</h1></a>
+    <div class="alert alert-info">You are viewing a permanent link to a post. Since you didn't find this post in the wild, you can't interact with it. But you can view it and stats.</div>
+    <p>
+      Stats for this post:<br>
+      It was submitted on {{ post.time_added }}.<br>
+      It has been spread {{ post.spread }} times and viewed {{ post.views }} times.
+    </p>
+    <p class="lead">Here's what someone spread:</p>
+    <img class="img-responsive" style="margin-left: auto; margin-right: auto" src="{{ post.url }}">
+    {{ post.caption|linebreaks }}
+    <h3>Comments</h3>
+    <br>
+    {% for comment in comments %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        {{ comment.comment_text|linebreaks }}
+      </div>
+      <div class="panel-footer">{{ comment.time_added }}</div>
+    </div>
+    {% empty %}
+    <p>Nothing here yet</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

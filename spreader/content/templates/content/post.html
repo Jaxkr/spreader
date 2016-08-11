@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Viewing{% endblock %}
+{% block maincontent %}
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <a href="{% url 'index' %}"><h1>spreader</h1></a>
+    {% if request.GET.spread %}
+    <br>
+    <div class="alert alert-success">The previous post has been spread with 2 more people.</div>
+    {% endif %}
+    <p class="lead">Here's what someone spread:</p>
+    <img class="img-responsive" style="margin-left: auto; margin-right: auto" src="{{ post.url }}">
+    {{ post.caption|linebreaks }}
+    <p style="text-align: center;"><a href="{% url 'spreadit' pool.unique_id %}" class="btn btn-success btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Spread it!</a> <a href="{% url 'getnext' pool.unique_id %}" class="btn btn-default btn-lg"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Next post</a></p>
+    <p><a target="_blank" href="{% url 'permapost' post.pk %}">View permanent page for this post</a></p>
+    <h3>Comments</h3>
+    <form method="post" action="{% url 'submitcomment' pool.unique_id %}">
+      {% csrf_token %}
+			{% if form.non_field_errors %}
+			<div class="alert alert-danger">
+				{{ form.non_field_errors }}
+			</div>
+			{% endif %}
+      <p>Add a comment</p>
+      {% if form.comment.errors %}
+        <span>{{ form.comment.errors.as_text }}</span>
+      {% endif %}
+      {{ form.comment }}<br>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+    </form>
+    <br>
+    {% for comment in comments %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        {{ comment.comment_text|linebreaks }}
+      </div>
+      <div class="panel-footer">{{ comment.time_added }}</div>
+    </div>
+    {% empty %}
+    <p>Nothing here yet</p>
+    {% endfor %}
+  </div>
+</div>
+<hr>
+</div>
+{% endblock %}
